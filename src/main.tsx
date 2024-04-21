@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { RouterProvider } from 'react-router-dom';
-import { router } from './router';
-// import { SocketProvider } from './providers/SocketProvider.tsx';
+import App from './App.tsx';
+import { BrowserRouter } from 'react-router-dom';
+
+import './assets/styles/reset.css';
+import './assets/styles/typography.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
 );

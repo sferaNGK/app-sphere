@@ -4,15 +4,28 @@ import { create } from 'zustand';
 interface SocketStore {
   socket: Socket | null;
   connect: () => void;
+  disconnect: () => void;
+  isConnected: boolean;
 }
 
-export const useSocket = create<SocketStore>((set) => ({
+export const useSocket = create<SocketStore>((set, get) => ({
   socket: null,
+  isConnected: false,
   connect: () => {
-    set({
-      socket: io(import.meta.env.VITE_WEBSOCKET_URL, {
-        transports: ['websocket'],
-      }),
+    const socket = io(`${import.meta.env.VITE_WEBSOCKET_URL}/test`, {
+      transports: ['websocket'],
     });
+    socket.on('connect', () => {
+      set({ socket, isConnected: true });
+    });
+    socket.on('disconnect', () => {
+      set({ socket: null, isConnected: false });
+    });
+  },
+  disconnect: () => {
+    if (get().socket) {
+      get().socket?.disconnect();
+      set({ socket: null, isConnected: false });
+    }
   },
 }));

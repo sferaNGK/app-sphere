@@ -1,11 +1,13 @@
 // import React, { useEffect } from 'react';
-// import { useSocket } from '../stores/socket.ts';
+// import { io } from 'socket.io-client';
 //
 // export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-//   const [socket, connect] = useSocket((state) => [state.socket, state.connect]);
+//   const socket = io('http://localhost:8080', {
+//     transports: ['websocket'],
+//   });
 //   const SocketContext = React.createContext(socket);
 //
-//   useEffect(() => connect(), [connect]);
+//   useEffect(, []);
 //
 //   return (
 //     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>

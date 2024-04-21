@@ -1,1 +1,1 @@
-export * from './Typography/Typography.tsx';
+export * from '@/components/typography/Typography.tsx';

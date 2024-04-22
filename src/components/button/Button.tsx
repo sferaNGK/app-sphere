@@ -10,7 +10,7 @@ export interface ButtonProps extends React.ComponentProps<'button'> {
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, variant = 'contained', className, ...props }, ref) => (
+  ({ children, variant = 'primary', className, ...props }, ref) => (
     <button
       className={clsx(styles.button, styles[variant], className)}
       type="button"

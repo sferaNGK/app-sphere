@@ -1,12 +1,13 @@
-import { CodeForm, Typography } from '@/components';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-} from '@/components/ui/card.tsx';
+  CodeForm,
+  Typography,
+} from '@/components';
 
-export default function CodeActivation() {
+export const CodeActivation = () => {
   return (
     <div className="container max-w-7xl flex justify-center items-center flex-col">
       <Card>
@@ -14,13 +15,11 @@ export default function CodeActivation() {
           <Typography
             variant="title"
             tag="h1"
-            className="text-4xl font-bold mb-5">
+            className="text-4xl font-bold mb-5 max-lg:text-center">
             Введите код активации
           </Typography>
-          <CardDescription>
-            <Typography variant="paragraph16_regular" tag="span">
-              Введите код с вашего мобильного телефона
-            </Typography>
+          <CardDescription className="max-lg:text-center">
+            Введите код с вашего мобильного телефона
           </CardDescription>
         </CardHeader>
         <CardContent className="flex justify-center">
@@ -29,4 +28,4 @@ export default function CodeActivation() {
       </Card>
     </div>
   );
-}
+};

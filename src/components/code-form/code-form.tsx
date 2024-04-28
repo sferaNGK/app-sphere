@@ -2,18 +2,16 @@ import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-} from '@/components/ui/input-otp.tsx';
-import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form.tsx';
+  Button,
+} from '@/components';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@/components/ui/button.tsx';
 
 export const CodeForm = () => {
   const formSchema = z.object({

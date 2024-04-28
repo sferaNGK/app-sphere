@@ -1,8 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
-import Home from './pages/home.tsx';
-import { useSocket } from './stores/socket.ts';
+import { useSocket } from '@/stores';
 import { useEffect } from 'react';
-import CodeActivation from '@/pages/code-activation.tsx';
+import { CodeActivation, Home } from '@/pages';
 
 export default function App() {
   const [connect, disconnect] = useSocket((state) => [

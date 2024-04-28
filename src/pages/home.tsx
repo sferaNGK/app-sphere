@@ -1,15 +1,16 @@
-import { TeamForm, Typography } from '@/components';
 import {
+  TeamForm,
+  Typography,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-} from '@/components/ui/card.tsx';
-import { useSocket } from '@/stores/socket.ts';
+} from '@/components';
+import { useSocket } from '@/stores';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function Home() {
+export const Home = () => {
   const [socket] = useSocket((state) => [state.socket]);
   const navigate = useNavigate();
 
@@ -28,7 +29,10 @@ export default function Home() {
 
   return (
     <div className="container max-w-7xl flex justify-center items-center flex-col">
-      <Typography variant="title" tag="h1" className="mb-2 text-4xl font-bold">
+      <Typography
+        variant="title"
+        tag="h1"
+        className="mb-2 text-4xl font-bold max-lg:text-center">
         Что ж, сыграем вместе?
       </Typography>
       <Card className="w-full max-w-sm p-2 mt-10">
@@ -49,4 +53,4 @@ export default function Home() {
       </Card>
     </div>
   );
-}
+};

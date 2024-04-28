@@ -4,8 +4,6 @@ import { useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -14,9 +12,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useSocket } from '@/stores/socket.ts';
+  Input,
+  Button,
+} from '@/components';
+import { useSocket } from '@/stores';
 
 const FormSchema = z.object({
   teamName: z.string().min(2, {

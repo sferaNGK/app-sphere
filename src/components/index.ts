@@ -6,3 +6,4 @@ export * from '@/components/ui/input-otp.tsx';
 export * from '@/components/ui/card.tsx';
 export * from '@/components/ui/form.tsx';
 export * from '@/components/ui/label.tsx';
+export * from '@/components/ui/input.tsx';

@@ -1,12 +1,23 @@
 import React from 'react';
-import { useCode } from '@/stores';
 import { Navigate } from 'react-router-dom';
 
-export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const checkCode = useCode((state) => state.checkCode);
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+  callbackCondition: () => boolean;
+  redirectPath: string;
+  invertCondition?: boolean;
+}
 
-  if (!checkCode()) {
-    return <Navigate to={'/'} />;
+export const ProtectedRoute = ({
+  children,
+  callbackCondition,
+  redirectPath,
+  invertCondition = false,
+}: ProtectedRouteProps) => {
+  const callbackResult = callbackCondition();
+
+  if (invertCondition ? !callbackResult : callbackResult) {
+    return <Navigate to={redirectPath} />;
   }
 
   return children;

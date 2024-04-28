@@ -9,3 +9,4 @@ export * from '@/components/ui/label.tsx';
 export * from '@/components/ui/input.tsx';
 export * from '@/components/ui/badge.tsx';
 export * from './protected-route';
+export * from './iframe-game';

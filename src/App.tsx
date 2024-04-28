@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
-import { useSocket } from '@/stores';
+import { useCode, useSocket } from '@/stores';
 import { useEffect } from 'react';
-import { Code, CodeActivation, Home } from '@/pages';
+import { Code, CodeActivation, Game, Home } from '@/pages';
 import { ProtectedRoute } from '@/components';
 
 export default function App() {
@@ -9,6 +9,7 @@ export default function App() {
     state.connect,
     state.disconnect,
   ]);
+  const checkCode = useCode((state) => state.checkCode);
 
   useEffect(() => {
     connect();
@@ -20,16 +21,27 @@ export default function App() {
 
   return (
     <Routes>
-      <Route path={'/'} element={<Home />} />
+      <Route
+        path={'/'}
+        element={
+          <ProtectedRoute callbackCondition={checkCode} redirectPath={'/code'}>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path={'/code'}
         element={
-          <ProtectedRoute>
+          <ProtectedRoute
+            callbackCondition={checkCode}
+            redirectPath={'/'}
+            invertCondition={true}>
             <Code />
           </ProtectedRoute>
         }
       />
       <Route path={'/code-activation'} element={<CodeActivation />} />
+      <Route path={'/game'} element={<Game />} />
     </Routes>
   );
 }

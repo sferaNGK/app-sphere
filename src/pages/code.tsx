@@ -15,7 +15,7 @@ export const Code = () => {
 
   return (
     <div className="container max-w-7xl flex justify-center items-center flex-col">
-      <Card className="">
+      <Card>
         <CardHeader>
           <Typography
             variant="title"

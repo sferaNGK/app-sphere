@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 interface CodeStore {
   code: string | null;
   setCode: (code: string) => void;
-  checkCode: () => string | null;
+  checkCode: () => boolean;
 }
 
 export const useCode = create<CodeStore>()(
@@ -12,7 +12,7 @@ export const useCode = create<CodeStore>()(
     (set, get) => ({
       code: null,
       setCode: (code: string) => set({ code: code }),
-      checkCode: () => get().code,
+      checkCode: () => !!get().code,
     }),
     {
       name: 'code-storage',

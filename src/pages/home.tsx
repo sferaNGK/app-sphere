@@ -6,24 +6,25 @@ import {
   CardDescription,
   CardHeader,
 } from '@/components';
-import { useSocket } from '@/stores';
+import { useCode, useSocket } from '@/stores';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
   const [socket] = useSocket((state) => [state.socket]);
+  const setCode = useCode((state) => state.setCode);
   const navigate = useNavigate();
 
   useEffect(() => {
-    socket?.on('user:registeredTeam', ({ code, gameId }) => {
+    socket?.on('user:registerTeam', ({ code, gameId }) => {
       if (code && gameId) {
-        console.log(code, gameId);
-        navigate(`/code-activation`);
+        setCode(code);
+        navigate(`/code`);
       }
     });
 
     return () => {
-      socket?.off('user:registeredTeam');
+      socket?.off('user:registerTeam');
     };
   }, [socket]);
 

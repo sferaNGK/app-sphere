@@ -1,3 +1,5 @@
+'use client';
+
 import {
   InputOTP,
   InputOTPGroup,
@@ -12,8 +14,12 @@ import {
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSocket } from '@/stores';
+import React from 'react';
 
 export const CodeForm = () => {
+  const socket = useSocket((state) => state.socket);
+
   const formSchema = z.object({
     code: z
       .string()
@@ -30,10 +36,14 @@ export const CodeForm = () => {
     },
   });
 
-  const onSubmit = (data: FormValues) => {
-    const { code } = data;
-    console.log(code);
-  };
+  const verifyCode = React.useCallback(
+    (data: FormValues) => {
+      socket?.emit('user:verifyCode', { code: data.code });
+    },
+    [socket],
+  );
+
+  const onSubmit = (data: FormValues) => verifyCode(data);
 
   return (
     <Form {...form}>

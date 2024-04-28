@@ -6,8 +6,22 @@ import {
   CodeForm,
   Typography,
 } from '@/components';
+import { useSocket } from '@/stores';
+import React from 'react';
 
 export const CodeActivation = () => {
+  const socket = useSocket((state) => state.socket);
+
+  React.useEffect(() => {
+    socket?.on('user:verifyCode', ({ success }) => {
+      console.log(success);
+    });
+
+    return () => {
+      socket?.off('user:verifyCode');
+    };
+  }, [socket]);
+
   return (
     <div className="container max-w-7xl flex justify-center items-center flex-col">
       <Card>

@@ -7,3 +7,5 @@ export * from '@/components/ui/card.tsx';
 export * from '@/components/ui/form.tsx';
 export * from '@/components/ui/label.tsx';
 export * from '@/components/ui/input.tsx';
+export * from '@/components/ui/badge.tsx';
+export * from './protected-route';

@@ -1,16 +1,31 @@
-import { Typography } from '@/components';
-import { Button } from '@/components/ui/button.tsx';
-import { Label } from '@/components/ui/label.tsx';
-import { Input } from '@/components/ui/input.tsx';
+import { TeamForm, Typography } from '@/components';
 import {
   Card,
-  CardFooter,
+  CardContent,
   CardDescription,
   CardHeader,
-  CardContent,
 } from '@/components/ui/card.tsx';
+import { useSocket } from '@/stores/socket.ts';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+  const [socket] = useSocket((state) => [state.socket]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    socket?.on('user:registeredTeam', ({ code, gameId }) => {
+      if (code && gameId) {
+        console.log(code, gameId);
+        navigate(`/code-activation`);
+      }
+    });
+
+    return () => {
+      socket?.off('user:registeredTeam');
+    };
+  }, [socket]);
+
   return (
     <div className="container max-w-7xl flex justify-center items-center flex-col">
       <Typography variant="title" tag="h1" className="mb-2 text-4xl font-bold">
@@ -25,25 +40,12 @@ export default function Home() {
             Регистрация команды
           </Typography>
           <CardDescription>
-            Пожалуйста, введите свой email и нажмите кнопку "дАРОВА".
+            Пожалуйста, введите свой email и нажмите кнопку "Давайте!".
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              type="email"
-              id="email"
-              placeholder="Email"
-              className="mt-1"
-            />
-          </div>
+          <TeamForm />
         </CardContent>
-        <CardFooter>
-          <Button variant="outline" className="w-full">
-            Давайте!
-          </Button>
-        </CardFooter>
       </Card>
     </div>
   );

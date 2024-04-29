@@ -18,7 +18,10 @@ import { useSocket } from '@/stores';
 import React from 'react';
 
 export const CodeForm = () => {
-  const socket = useSocket((state) => state.socket);
+  const [socket, getClientId] = useSocket((state) => [
+    state.socket,
+    state.getClientId,
+  ]);
 
   const formSchema = z.object({
     code: z
@@ -38,7 +41,10 @@ export const CodeForm = () => {
 
   const verifyCode = React.useCallback(
     (data: FormValues) => {
-      socket?.emit('user:verifyCode', { code: data.code });
+      socket?.emit('user:verifyCode', {
+        code: data.code,
+        clientId: getClientId(),
+      });
     },
     [socket],
   );

@@ -6,6 +6,8 @@ interface SocketStore {
   connect: () => void;
   disconnect: () => void;
   isConnected: boolean;
+  setClientId: () => void;
+  getClientId: () => string | null;
 }
 
 export const useSocket = create<SocketStore>((set, get) => ({
@@ -27,5 +29,13 @@ export const useSocket = create<SocketStore>((set, get) => ({
       get().socket?.disconnect();
       set({ socket: null, isConnected: false });
     }
+  },
+  setClientId: () => {
+    if (get()?.socket) {
+      localStorage.setItem('clientId', get()?.socket?.id as string);
+    }
+  },
+  getClientId: () => {
+    return localStorage.getItem('clientId');
   },
 }));

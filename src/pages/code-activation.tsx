@@ -6,15 +6,21 @@ import {
   CodeForm,
   Typography,
 } from '@/components';
-import { useSocket } from '@/stores';
+import { useCode, useSocket } from '@/stores';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const CodeActivation = () => {
   const socket = useSocket((state) => state.socket);
+  const setIsVerified = useCode((state) => state.setIsVerified);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
-    socket?.on('user:verifyCode', ({ success }) => {
-      console.log(success);
+    socket?.on('user:verifyCode', ({ success }: { success: boolean }) => {
+      if (!success) return;
+
+      setIsVerified();
+      navigate('/game');
     });
 
     return () => {

@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { useCode, useSocket } from '@/stores';
 import { useEffect } from 'react';
 import { Code, CodeActivation, Game, Home } from '@/pages';
@@ -42,6 +42,7 @@ export default function App() {
       />
       <Route path={'/code-activation'} element={<CodeActivation />} />
       <Route path={'/game'} element={<Game />} />
+      <Route path={'*'} element={<Navigate to={'/'} replace />} />
     </Routes>
   );
 }

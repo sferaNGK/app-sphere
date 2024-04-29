@@ -7,21 +7,31 @@ import {
   CardHeader,
 } from '@/components';
 import { useCode, useSocket } from '@/stores';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Home = () => {
-  const [socket] = useSocket((state) => [state.socket]);
+  const [socket, setClientId] = useSocket((state) => [
+    state.socket,
+    state.setClientId,
+  ]);
   const setCode = useCode((state) => state.setCode);
+  const [error, setError] = React.useState<string | undefined>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    socket?.on('user:registerTeam', ({ code, gameId }) => {
-      if (code && gameId) {
-        setCode(code);
-        navigate(`/code`);
-      }
-    });
+    socket?.on(
+      'user:registerTeam',
+      ({ code, error }: { code?: string; error?: string }) => {
+        error && setError(error);
+
+        if (code) {
+          setClientId();
+          setCode(code);
+          navigate(`/code`);
+        }
+      },
+    );
 
     return () => {
       socket?.off('user:registerTeam');
@@ -49,7 +59,7 @@ export const Home = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <TeamForm />
+          <TeamForm error={error} setError={setError} />
         </CardContent>
       </Card>
     </div>

@@ -28,10 +28,12 @@ const FormSchema = z.object({
   }),
 });
 
+type FormValues = z.infer<typeof FormSchema>;
+
 export const TeamForm = ({ error, setError }: TeamFormProps) => {
   const [socket] = useSocket((state) => [state.socket]);
 
-  const form = useForm<z.infer<typeof FormSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       teamName: '',
@@ -39,15 +41,13 @@ export const TeamForm = ({ error, setError }: TeamFormProps) => {
   });
 
   const registerTeam = useCallback(
-    (data: z.infer<typeof FormSchema>) => {
+    (data: FormValues) => {
       socket?.emit('user:registerTeam', { teamName: data.teamName });
     },
     [socket],
   );
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    registerTeam(data);
-  };
+  const onSubmit = (data: FormValues) => registerTeam(data);
 
   return (
     <Form {...form}>

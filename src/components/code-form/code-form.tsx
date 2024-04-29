@@ -17,20 +17,25 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useSocket } from '@/stores';
 import React from 'react';
 
-export const CodeForm = () => {
+interface CodeFormProps {
+  error?: string;
+  setError?: (error: string) => void;
+}
+
+const formSchema = z.object({
+  code: z
+    .string()
+    .min(6, 'Код должен содержать 6 цифр')
+    .max(6, 'Код должен содержать 6 цифр'),
+});
+
+type FormValues = z.infer<typeof formSchema>;
+
+export const CodeForm = ({ error, setError }: CodeFormProps) => {
   const [socket, getClientId] = useSocket((state) => [
     state.socket,
     state.getClientId,
   ]);
-
-  const formSchema = z.object({
-    code: z
-      .string()
-      .min(6, 'Код должен содержать 6 цифр')
-      .max(6, 'Код должен содержать 6 цифр'),
-  });
-
-  type FormValues = z.infer<typeof formSchema>;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -62,7 +67,10 @@ export const CodeForm = () => {
           render={({ field }) => (
             <FormItem className="flex flex-col items-center">
               <FormControl>
-                <InputOTP maxLength={6} {...field}>
+                <InputOTP
+                  maxLength={6}
+                  {...field}
+                  onFocus={() => setError && setError('')}>
                   <InputOTPGroup>
                     <InputOTPSlot index={0} />
                     <InputOTPSlot index={1} />
@@ -74,6 +82,11 @@ export const CodeForm = () => {
                 </InputOTP>
               </FormControl>
               <FormMessage />
+              {error && (
+                <div className="text-destructive text-[0.8rem] font-semibold">
+                  {error}
+                </div>
+              )}
             </FormItem>
           )}
         />

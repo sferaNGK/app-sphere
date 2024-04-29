@@ -13,15 +13,22 @@ import { useNavigate } from 'react-router-dom';
 export const CodeActivation = () => {
   const socket = useSocket((state) => state.socket);
   const setIsVerified = useCode((state) => state.setIsVerified);
+  const [error, setError] = React.useState<string | undefined>();
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    socket?.on('user:verifyCode', ({ success }: { success: boolean }) => {
-      if (!success) return;
+    socket?.on(
+      'user:verifyCode',
+      ({ success, error }: { success: boolean; error?: string }) => {
+        if (!success) {
+          error && setError(error);
+          return;
+        }
 
-      setIsVerified();
-      navigate('/game');
-    });
+        setIsVerified();
+        navigate('/game');
+      },
+    );
 
     return () => {
       socket?.off('user:verifyCode');
@@ -43,7 +50,7 @@ export const CodeActivation = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="flex justify-center">
-          <CodeForm />
+          <CodeForm error={error} setError={setError} />
         </CardContent>
       </Card>
     </div>

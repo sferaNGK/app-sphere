@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Container,
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
@@ -14,7 +15,7 @@ export const Code = () => {
   const code = useCode((state) => state.code);
 
   return (
-    <div className="container max-w-7xl flex justify-center items-center flex-col">
+    <Container className="flex justify-center items-center flex-col">
       <Card>
         <CardHeader>
           <Typography
@@ -42,6 +43,6 @@ export const Code = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </Container>
   );
 };

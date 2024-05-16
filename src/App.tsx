@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useCode, useSocket } from '@/stores';
 import { useEffect } from 'react';
-import { Code, CodeActivation, Game, Home } from '@/pages';
+import { Code, CodeActivation, Game, Home, Authorization } from '@/pages';
 import { ProtectedRoute } from '@/components';
 
 export default function App() {
@@ -42,6 +42,7 @@ export default function App() {
       />
       <Route path={'/code-activation'} element={<CodeActivation />} />
       <Route path={'/game'} element={<Game />} />
+      <Route path={'/admin/auth'} element={<Authorization />} />
       <Route path={'*'} element={<Navigate to={'/'} replace />} />
     </Routes>
   );

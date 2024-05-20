@@ -9,6 +9,7 @@ import {
 import { useCode, useSocket } from '@/stores';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { RegisterTeamHandler } from '@/types';
 
 export const Home = () => {
   const [socket, setClientId] = useSocket((state) => [
@@ -20,18 +21,15 @@ export const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    socket?.on(
-      'user:registerTeam',
-      ({ code, error }: { code?: string; error?: string }) => {
-        error && setError(error);
+    socket?.on('user:registerTeam', ({ code, error }: RegisterTeamHandler) => {
+      error && setError(error);
 
-        if (code) {
-          setClientId();
-          setCode(code);
-          navigate(`/code`);
-        }
-      },
-    );
+      if (code) {
+        setClientId();
+        setCode(code);
+        navigate(`/code`);
+      }
+    });
 
     return () => {
       socket?.off('user:registerTeam');
@@ -55,7 +53,7 @@ export const Home = () => {
             Регистрация команды
           </Typography>
           <CardDescription>
-            Пожалуйста, введите свой email и нажмите кнопку "Давайте!".
+            Пожалуйста, введите название команды и нажмите кнопку "Давайте!".
           </CardDescription>
         </CardHeader>
         <CardContent>

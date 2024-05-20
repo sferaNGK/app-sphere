@@ -3,7 +3,7 @@ import { create } from 'zustand';
 
 interface SocketStore {
   socket: Socket | null;
-  connect: (url: string) => void;
+  connect: () => void;
   disconnect: () => void;
   isConnected: boolean;
   setClientId: () => void;
@@ -13,8 +13,8 @@ interface SocketStore {
 export const useSocket = create<SocketStore>((set, get) => ({
   socket: null,
   isConnected: false,
-  connect: (url: string) => {
-    const socket = io(`${import.meta.env.VITE_WEBSOCKET_URL}/${url}`, {
+  connect: () => {
+    const socket = io(`${import.meta.env.VITE_WEBSOCKET_URL}`, {
       transports: ['websocket'],
     });
     socket.on('connect', () => {

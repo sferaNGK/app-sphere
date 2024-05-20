@@ -1,6 +1,5 @@
 export * from './typography/typography.tsx';
 export * from './team-form';
-export * from './code-form';
 export * from './ui/button.tsx';
 export * from './ui/input-otp.tsx';
 export * from './ui/card.tsx';
@@ -9,6 +8,5 @@ export * from './ui/label.tsx';
 export * from './ui/input.tsx';
 export * from './ui/badge.tsx';
 export * from './protected-route';
-export * from './iframe-game';
 export * from './login-form';
 export * from './container';

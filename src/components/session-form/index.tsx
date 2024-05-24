@@ -55,7 +55,10 @@ export const SessionForm = ({
     [socket],
   );
 
-  const onSubmit = (data: FormValues) => registerTeam(data);
+  const onSubmit = (data: FormValues) => {
+    registerTeam(data);
+    form.control._reset();
+  };
 
   return (
     <Form {...form}>

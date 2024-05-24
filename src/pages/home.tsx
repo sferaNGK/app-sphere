@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
 } from '@/components';
-import { useCode, useSocket } from '@/stores';
+import { useBoard, useCode, useSocket } from '@/stores';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RegisterTeamHandler } from '@/types';
@@ -17,19 +17,24 @@ export const Home = () => {
     state.setClientId,
   ]);
   const setCode = useCode((state) => state.setCode);
+  const setBoard = useBoard((state) => state.setBoard);
   const [error, setError] = React.useState<string | undefined>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    socket?.on('user:registerTeam', ({ code, error }: RegisterTeamHandler) => {
-      error && setError(error);
+    socket?.on(
+      'user:registerTeam',
+      ({ code, board, error }: RegisterTeamHandler) => {
+        error && setError(error);
 
-      if (code) {
-        setClientId();
-        setCode(code);
-        navigate(`/code`);
-      }
-    });
+        if (code && board) {
+          setClientId();
+          setCode(code);
+          setBoard(board);
+          navigate(`/code`);
+        }
+      },
+    );
 
     return () => {
       socket?.off('user:registerTeam');

@@ -9,10 +9,11 @@ import {
   InputOTPSlot,
   Typography,
 } from '@/components';
-import { useCode } from '@/stores';
+import { useBoard, useCode } from '@/stores';
 
 export const Code = () => {
   const code = useCode((state) => state.code);
+  const board = useBoard((state) => state.board);
 
   return (
     <Container className="flex justify-center items-center flex-col">
@@ -40,6 +41,12 @@ export const Code = () => {
                 <InputOTPSlot index={5} />
               </InputOTPGroup>
             </InputOTP>
+            <Badge
+              variant="outline"
+              className="flex flex-col justify-center p-3">
+              Подойдите к доске
+              <span className="font-bold">{`Номер ${board?.place}`}</span>
+            </Badge>
           </div>
         </CardContent>
       </Card>

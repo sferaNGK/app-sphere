@@ -4,6 +4,10 @@ export interface RegisterTeamHandler {
   error?: string;
 }
 
+export interface NewBoardHandler extends RegisterTeamHandler {
+  clientIdPhone: string;
+}
+
 export interface CreateGameSessionHandler {
   isCreated: boolean;
   gameSessions?: GameSession[];

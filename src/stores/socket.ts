@@ -5,6 +5,7 @@ interface SocketStore {
   socket: Socket | null;
   connect: () => void;
   disconnect: () => void;
+  reconnect: () => void;
   isConnected: boolean;
   setClientId: () => void;
   getClientId: () => string | null;
@@ -16,6 +17,9 @@ export const useSocket = create<SocketStore>((set, get) => ({
   connect: () => {
     const socket = io(`${import.meta.env.VITE_WEBSOCKET_URL}`, {
       transports: ['websocket'],
+      query: {
+        clientIdPhone: get().getClientId(),
+      },
     });
     socket.on('connect', () => {
       set({ socket, isConnected: true });
@@ -29,6 +33,10 @@ export const useSocket = create<SocketStore>((set, get) => ({
       get().socket?.disconnect();
       set({ socket: null, isConnected: false });
     }
+  },
+  reconnect: () => {
+    get().disconnect();
+    get().connect();
   },
   setClientId: () => {
     if (get()?.socket) {

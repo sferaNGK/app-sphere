@@ -12,9 +12,10 @@ import { useNavigate } from 'react-router-dom';
 import { RegisterTeamHandler } from '@/types';
 
 export const Home = () => {
-  const [socket, setClientId] = useSocket((state) => [
+  const [socket, setClientId, reconnect] = useSocket((state) => [
     state.socket,
     state.setClientId,
+    state.reconnect,
   ]);
   const setCode = useCode((state) => state.setCode);
   const setBoard = useBoard((state) => state.setBoard);
@@ -31,6 +32,7 @@ export const Home = () => {
           setClientId();
           setCode(code);
           setBoard(board);
+          reconnect();
           navigate(`/code`);
         }
       },

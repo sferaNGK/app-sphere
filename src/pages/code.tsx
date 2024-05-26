@@ -9,11 +9,29 @@ import {
   InputOTPSlot,
   Typography,
 } from '@/components';
-import { useBoard, useCode } from '@/stores';
+import { useBoard, useCode, useSocket } from '@/stores';
+import { NewBoardHandler } from '@/types';
+import { useEffect } from 'react';
 
 export const Code = () => {
+  const [socket, getClientId] = useSocket((state) => [
+    state.socket,
+    state.getClientId,
+  ]);
   const code = useCode((state) => state.code);
-  const board = useBoard((state) => state.board);
+  const [board, setBoard] = useBoard((state) => [state.board, state.setBoard]);
+
+  useEffect(() => {
+    if (socket)
+      socket.on(
+        'game:newBoard',
+        ({ board, clientIdPhone }: NewBoardHandler) => {
+          if (getClientId() === clientIdPhone) {
+            setBoard(board);
+          }
+        },
+      );
+  }, [socket]);
 
   return (
     <Container className="flex justify-center items-center flex-col">

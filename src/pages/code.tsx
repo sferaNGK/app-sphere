@@ -1,5 +1,6 @@
 import {
   Badge,
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -20,6 +21,11 @@ export const Code = () => {
   ]);
   const code = useCode((state) => state.code);
   const [board, setBoard] = useBoard((state) => [state.board, state.setBoard]);
+
+  const cleanLocalStorage = () => {
+    localStorage.clear();
+    location.reload();
+  };
 
   useEffect(() => {
     if (socket)
@@ -68,6 +74,7 @@ export const Code = () => {
           </div>
         </CardContent>
       </Card>
+      <Button onClick={cleanLocalStorage}>Очистить</Button>
     </Container>
   );
 };

@@ -21,6 +21,7 @@ module.exports = {
       {
         'singleQuote': true,
         'parser': 'flow',
+        'semi': true,
       },
     ],
   },

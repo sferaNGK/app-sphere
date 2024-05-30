@@ -8,6 +8,10 @@ export interface NewBoardHandler extends RegisterTeamHandler {
   clientIdPhone: string;
 }
 
+export type WaitingGameHandler = Pick<NewBoardHandler, 'clientIdPhone'> & {
+  isWaiting: boolean;
+};
+
 export interface CreateGameSessionHandler {
   isCreated: boolean;
   gameSessions?: GameSession[];

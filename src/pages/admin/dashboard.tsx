@@ -5,23 +5,26 @@ import {
   TooltipContent,
   TooltipTrigger,
   Typography,
+  SpecialtyForm,
 } from '@/components';
 import { useSocket } from '@/stores';
-import { Check, Gamepad2, Brain, Play, X } from 'lucide-react';
+import { Check, Gamepad2, Brain, Play, X, Container } from 'lucide-react';
 import { SessionForm } from '@/components/session-form';
 import { useEffect, useState } from 'react';
-import { CreateGameSessionHandler, GameSession } from '@/types';
+import { CreateGameSessionHandler, GameSession, Specialty } from '@/types';
 import { useToast } from '@/components/ui/use-toast.ts';
-import { GameSessionService } from '@/services';
+import { GameSessionService, SpecialtyService } from '@/services';
 
 export const Dashboard = () => {
   const { toast } = useToast();
   const socket = useSocket((state) => state.socket);
   const [error, setError] = useState<string | undefined>();
   const [gameSessions, setGameSessions] = useState<GameSession[]>([]);
+  const [specialties, setSpecialities] = useState<Specialty[]>([]);
 
-  const handleStart = () => {
-    socket?.emit('game:start', { isAdmin: true });
+  const handleStart = (specialtyId: number) => {
+    if (!specialtyId) return;
+    socket?.emit('game:start', { isAdmin: true, specialtyId });
   };
 
   socket?.on(
@@ -44,10 +47,27 @@ export const Dashboard = () => {
       setGameSessions(res.data);
     });
 
+    SpecialtyService.getSpecialties().then((res) => {
+      setSpecialities(res.data);
+    });
+
+    if (socket) {
+      socket.on('game:start', ({ error }: { error?: string }) => {
+        if (error)
+          toast({
+            variant: 'destructive',
+            title: error,
+            description:
+              'Создайте сессию, после чего Вы сможете начать игру с выбранной специальностью.',
+          });
+      });
+    }
+
     return () => {
       socket?.off('game:createGameSession');
+      socket?.off('game:start');
     };
-  }, []);
+  }, [socket]);
 
   return (
     <div className="grid h-screen w-full pl-[53px]">
@@ -70,7 +90,23 @@ export const Dashboard = () => {
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="right" sideOffset={5}>
-                Playground
+                Сессии и запуск игр
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-lg"
+                  aria-label="Контейнеры Docker">
+                  <Container />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="right" sideOffset={5}>
+                Контейнеры Docker (игры)
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -79,7 +115,7 @@ export const Dashboard = () => {
       </aside>
       <div className="flex flex-col">
         <header className="sticky top-0 z-10 flex h-[53px] items-center gap-1 border-b bg-background px-4">
-          <h1 className="text-xl font-semibold">Дэшборд</h1>
+          <h1 className="text-xl font-semibold">Дашборд</h1>
           <Button
             variant="outline"
             size="sm"
@@ -132,17 +168,16 @@ export const Dashboard = () => {
             </div>
           </div>
           <div className="relative flex-col items-start gap-8 md:flex">
-            <div className="">
-              <Typography
-                variant="title"
-                tag="h2"
-                className="font-semibold mb-2">
+            <div className="space-y-2">
+              <Typography variant="title" tag="h2" className="font-semibold">
                 Начало игры
               </Typography>
-              <Button onClick={handleStart}>
-                <Play size={18} />
-                <span className="ml-1.5">Начать игру</span>
-              </Button>
+              <SpecialtyForm specialties={specialties} onStart={handleStart}>
+                <Button>
+                  <Play size={18} />
+                  <span className="ml-1.5">Начать игру</span>
+                </Button>
+              </SpecialtyForm>
             </div>
           </div>
         </main>

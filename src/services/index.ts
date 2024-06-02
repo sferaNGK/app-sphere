@@ -1,1 +1,2 @@
-export * from './gameSessionService.ts';
+export * from './gameSessionService';
+export * from './specialtyService.ts';

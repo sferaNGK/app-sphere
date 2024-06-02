@@ -13,3 +13,5 @@ export * from './container';
 export * from './ui/tooltip.tsx';
 export * from './ui/toast.tsx';
 export * from './ui/toaster.tsx';
+export * from './ui/select.tsx';
+export * from './admin/specialty-form';

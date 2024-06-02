@@ -31,3 +31,14 @@ export interface Board {
   ip: string;
   isBusy: boolean;
 }
+
+export interface Specialty {
+  id: number;
+  title: string;
+}
+
+export interface User {
+  id: number;
+  teamName: string;
+  points: number;
+}

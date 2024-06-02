@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useCode, useSocket } from '@/stores';
 import { useEffect } from 'react';
-import { Code, Home, Authorization, Dashboard } from '@/pages';
+import { Code, Home, Authorization, Dashboard, EndGame } from '@/pages';
 import { ProtectedRoute } from '@/components';
 
 export default function App() {
@@ -42,6 +42,7 @@ export default function App() {
       />
       <Route path={'/admin/auth'} element={<Authorization />} />
       <Route path={'/admin/dashboard'} element={<Dashboard />} />
+      <Route path={'/end'} element={<EndGame />} />
       <Route path={'*'} element={<Navigate to={'/'} replace />} />
     </Routes>
   );

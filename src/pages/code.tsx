@@ -11,8 +11,9 @@ import {
   Typography,
 } from '@/components';
 import { useBoard, useCode, useSocket } from '@/stores';
-import { NewBoardHandler, WaitingGameHandler } from '@/types';
+import { NewBoardHandler, User, WaitingGameHandler } from '@/types';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Code = () => {
   const [socket, getClientId] = useSocket((state) => [
@@ -28,6 +29,7 @@ export const Code = () => {
       state.setIsWaiting,
     ],
   );
+  const navigate = useNavigate();
 
   const cleanLocalStorage = () => {
     localStorage.clear();
@@ -50,6 +52,17 @@ export const Code = () => {
         ({ isWaiting, clientIdPhone }: WaitingGameHandler) => {
           if (getClientId() === clientIdPhone) {
             setIsWaiting(isWaiting);
+          }
+        },
+      );
+
+      socket.on(
+        'game:endGameSession',
+        ({ isCompleted, users }: { isCompleted: boolean; users: User[] }) => {
+          if (isCompleted) {
+            localStorage.clear();
+            setIsWaiting(false);
+            navigate('/end', { state: { users } });
           }
         },
       );

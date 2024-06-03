@@ -42,3 +42,13 @@ export interface User {
   teamName: string;
   points: number;
 }
+
+export interface StartGameHandler {
+  isStarted: boolean;
+  game: {
+    id: number;
+    title: string;
+    url: string;
+  };
+  clientIdPhone: string;
+}

@@ -43,12 +43,14 @@ export interface User {
   points: number;
 }
 
+export interface Game {
+  id: number;
+  title: string;
+  url: string;
+}
+
 export interface StartGameHandler {
   isStarted: boolean;
-  game: {
-    id: number;
-    title: string;
-    url: string;
-  };
+  game: Game;
   clientIdPhone: string;
 }

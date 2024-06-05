@@ -10,14 +10,14 @@ import {
   InputOTPSlot,
   Typography,
 } from '@/components';
-import { useBoard, useCode, useSocket } from '@/stores';
+import { useBoard, useCode, useGame, useSocket } from '@/stores';
 import {
   NewBoardHandler,
   StartGameHandler,
   User,
   WaitingGameHandler,
 } from '@/types';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Code = () => {
@@ -34,12 +34,20 @@ export const Code = () => {
       state.setIsWaiting,
     ],
   );
-  const [game, setGame] = useState({} as Pick<StartGameHandler, 'game'>);
+  const [game, setPersistedGame] = useGame((state) => [
+    state.game,
+    state.setPersistedGame,
+  ]);
   const navigate = useNavigate();
 
   const cleanLocalStorage = () => {
     localStorage.clear();
     location.reload();
+  };
+
+  const handleEndVR = () => {
+    setPersistedGame(null);
+    socket?.emit('game:end', { game: game, points: 0 });
   };
 
   useEffect(() => {
@@ -62,9 +70,9 @@ export const Code = () => {
         },
       );
 
-      socket.on('game:start', ({ game, clientIdPhone }: StartGameHandler) => {
-        if (getClientId() === clientIdPhone) {
-          //
+      socket.on('game:VR', ({ game, clientIdPhone }: StartGameHandler) => {
+        if (getClientId() === clientIdPhone && game.url === 'VR') {
+          setPersistedGame(game);
         }
       });
 
@@ -79,6 +87,13 @@ export const Code = () => {
         },
       );
     }
+
+    return () => {
+      socket?.off('game:newBoard');
+      socket?.off('game:waiting');
+      socket?.off('game:startVR');
+      socket?.off('game:endGameSession');
+    };
   }, [socket]);
 
   return (
@@ -114,8 +129,14 @@ export const Code = () => {
                 variant="outline"
                 className="flex flex-col justify-center p-3">
                 Подойдите к доске
-                <span className="font-bold">{`Номер ${board?.place}`}</span>
+                <span className="font-bold">
+                  {`Номер ${board?.place}`}
+                  {game?.url === 'VR' ? ` игра ${game?.title}` : ''}
+                </span>
               </Badge>
+              {game?.url === 'VR' && (
+                <Button onClick={handleEndVR}>Мы закончили играть в VR</Button>
+              )}
             </div>
           ) : (
             <span className="font-medium text-center text-sm">

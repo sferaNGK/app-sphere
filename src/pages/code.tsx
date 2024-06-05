@@ -11,14 +11,8 @@ import {
   Typography,
 } from '@/components';
 import { useBoard, useCode, useSocket } from '@/stores';
-import {
-  Board,
-  NewBoardHandler,
-  StartGameHandler,
-  User,
-  WaitingGameHandler,
-} from '@/types';
-import { useEffect, useState } from 'react';
+import { Board, NewBoardHandler, User, WaitingGameHandler } from '@/types';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Code = () => {
@@ -35,7 +29,6 @@ export const Code = () => {
       state.setIsWaiting,
     ],
   );
-  const [game, setGame] = useState({} as Pick<StartGameHandler, 'game'>);
   const navigate = useNavigate();
 
   const cleanLocalStorage = () => {

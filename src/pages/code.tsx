@@ -12,6 +12,7 @@ import {
 } from '@/components';
 import { useBoard, useCode, useSocket } from '@/stores';
 import {
+  Board,
   NewBoardHandler,
   StartGameHandler,
   User,
@@ -62,11 +63,19 @@ export const Code = () => {
         },
       );
 
-      socket.on('game:start', ({ game, clientIdPhone }: StartGameHandler) => {
-        if (getClientId() === clientIdPhone) {
-          //
-        }
-      });
+      socket.on(
+        'user:reconnect',
+        ({ board, clientIdPhone }: { board: Board; clientIdPhone: string }) => {
+          if (getClientId() === clientIdPhone) {
+            setBoard(board);
+          }
+        },
+      );
+      // socket.on('game:start', ({ game, clientIdPhone }: StartGameHandler) => {
+      //   if (getClientId() === clientIdPhone) {
+      //     //
+      //   }
+      // });
 
       socket.on(
         'game:endGameSession',

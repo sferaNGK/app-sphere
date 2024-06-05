@@ -165,7 +165,7 @@ export const EndGame = () => {
 
   return (
     <div className="w-full h-screen flex justify-center items-center overflow-y-hidden">
-      <Container className="max-md:h-[80vh]">
+      <Container className="max-md:h-[80vh] h-[71vh]">
         <Bar
           plugins={[
             {

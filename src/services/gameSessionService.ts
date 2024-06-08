@@ -3,7 +3,7 @@ import { GameSession } from '@/types';
 
 class GameSessionService {
   static async getGameSessions() {
-    return api.get<GameSession[]>('/sessions');
+    return (await api.get<GameSession[]>('/sessions')).data;
   }
 }
 

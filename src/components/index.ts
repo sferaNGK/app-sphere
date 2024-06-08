@@ -15,3 +15,4 @@ export * from './ui/toast.tsx';
 export * from './ui/toaster.tsx';
 export * from './ui/select.tsx';
 export * from './admin/specialty-form';
+export * from './admin/docker/logs';

@@ -3,7 +3,7 @@ import { Specialty } from '@/types';
 
 class SpecialtyService {
   static async getSpecialties() {
-    return api.get<Specialty[]>('/specialties');
+    return (await api.get<Specialty[]>('/specialties')).data;
   }
 }
 

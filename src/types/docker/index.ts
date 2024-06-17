@@ -78,7 +78,7 @@ export interface DockerodeResponse {
 }
 
 export interface DockerodeActionRequest {
-  imageName: string;
+  projectName: string;
 }
 
 export interface DockerodeActionResponse {

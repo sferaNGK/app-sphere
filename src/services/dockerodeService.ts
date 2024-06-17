@@ -10,20 +10,20 @@ class DockerodeService {
     return (await api.get<DockerodeResponse[]>('/dockerode')).data;
   }
 
-  static async startComposedContainer(imageName: string) {
+  static async startComposedContainer(projectName: string) {
     return api.post<DockerodeActionRequest, DockerodeActionResponse>(
       `/dockerode/start`,
       {
-        imageName,
+        projectName,
       },
     );
   }
 
-  static async stopComposedContainer(imageName: string) {
+  static async stopComposedContainer(projectName: string) {
     return api.post<DockerodeActionRequest, DockerodeActionResponse>(
       `/dockerode/stop`,
       {
-        imageName,
+        projectName,
       },
     );
   }

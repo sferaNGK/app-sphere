@@ -22,17 +22,17 @@ export const DockerLogs = () => {
     if (socket) {
       socket.emit('docker:streamLogs', { containerId });
 
-      socket.on('docker:streamLogs', (data) => {
+      const handleLogs = (data: string) => {
         setLogs((prev) => prev + data);
-      });
-    }
+      };
 
-    return () => {
-      if (socket) {
-        socket.off('docker:streamLogs');
-      }
-    };
-  }, [socket, containerId]);
+      socket.on('docker:streamLogs', handleLogs);
+
+      return () => {
+        socket.off('docker:streamLogs', handleLogs);
+      };
+    }
+  }, [containerId]);
 
   useEffect(() => {
     setLogs('');
@@ -59,9 +59,9 @@ export const DockerLogs = () => {
   }, [logsContainerRef]);
 
   return (
-    <div className="container mx-auto p-4 w-[1000px] h-[800px]">
+    <div className="container mx-auto p-4 w-[500px]">
       <div
-        className="bg-gray-800 text-white rounded-lg shadow-md p-4 h-96 overflow-y-auto relative"
+        className="bg-foreground text-white rounded-lg shadow-md p-5 h-[50rem] overflow-y-auto relative"
         ref={logsContainerRef}>
         <pre className="whitespace-pre-wrap">{logs}</pre>
         <div className="sticky bottom-0 right-0 flex justify-end gap-4">

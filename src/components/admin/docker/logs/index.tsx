@@ -59,7 +59,7 @@ export const DockerLogs = () => {
   }, [logsContainerRef]);
 
   return (
-    <div className="container mx-auto p-4 w-[500px]">
+    <div className="container mx-auto p-4 w-full md:w-[1000px]">
       <div
         className="bg-foreground text-white rounded-lg shadow-md p-5 h-[50rem] overflow-y-auto relative"
         ref={logsContainerRef}>

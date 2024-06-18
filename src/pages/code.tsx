@@ -64,11 +64,6 @@ export const Code = () => {
           }
         },
       );
-      // socket.on('game:start', ({ game, clientIdPhone }: StartGameHandler) => {
-      //   if (getClientId() === clientIdPhone) {
-      //     //
-      //   }
-      // });
 
       socket.on(
         'game:endGameSession',

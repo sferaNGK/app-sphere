@@ -16,3 +16,6 @@ export * from './ui/toaster.tsx';
 export * from './ui/select.tsx';
 export * from './admin/specialty-form';
 export * from './admin/docker/logs';
+export * from './admin/aside-link';
+export * from './admin/header';
+export * from './admin/aside-panel';

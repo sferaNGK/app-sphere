@@ -9,8 +9,9 @@ import {
   Typography,
 } from '@/components';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import { useFilteredData } from '@/hooks';
 
 export const Docker = () => {
   const [filterOption, setFilterOption] = useState('');
@@ -19,25 +20,7 @@ export const Docker = () => {
     queryFn: DockerodeService.getComposedContainers,
     refetchInterval: 3000,
   });
-  const [filteredData, setFilteredData] = useState<typeof data>(data);
-
-  useEffect(() => {
-    const sortedData = [...(data || [])].sort((a, b) => {
-      if (
-        a[filterOption as keyof typeof a] &&
-        b[filterOption as keyof typeof b]
-      ) {
-        return (a[filterOption as keyof typeof a] as string).localeCompare(
-          b[filterOption as keyof typeof b] as string,
-        );
-      } else if (filterOption === 'nameZtoA') {
-        return (b.name as string).localeCompare(a.name as string);
-      }
-
-      return 0;
-    });
-    setFilteredData(sortedData);
-  }, [filterOption, data]);
+  const filteredData = useFilteredData(data, filterOption);
 
   return (
     <>

@@ -115,8 +115,8 @@ const options = {
   elements: {
     bar: {
       borderWidth: 2,
-      borderRadius: 100, // Изменяем высоту баров для мобильных устройств
-      barPercentage: 10, // Изменяем ширину баров для мобильных устройств
+      borderRadius: 100,
+      barPercentage: 10,
     },
   },
 };
@@ -125,29 +125,6 @@ export const EndGame = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { users } = state as { users: User[] };
-
-  // const users2 = [
-  //   {
-  //     teamName: 'Team 1',
-  //     points: 10,
-  //   },
-  //   {
-  //     teamName: 'Team 2',
-  //     points: 20,
-  //   },
-  //   {
-  //     teamName: 'Team 3',
-  //     points: 30,
-  //   },
-  //   {
-  //     teamName: 'Team 4',
-  //     points: 40,
-  //   },
-  //   {
-  //     teamName: 'Team 5',
-  //     points: 50,
-  //   },
-  // ];
 
   const data = {
     labels: users.map((user) => user.teamName),
